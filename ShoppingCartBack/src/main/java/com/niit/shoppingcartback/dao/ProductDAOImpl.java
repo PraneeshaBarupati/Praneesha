@@ -97,7 +97,7 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<Product> list() {
 		log.debug("Starting of the method save");
 		String hql = "from Product";
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		Query query = (Query)sessionFactory.getCurrentSession().createQuery(hql);
 		log.debug("Starting of the method save");
 		return query.list();
 

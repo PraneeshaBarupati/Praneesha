@@ -2,47 +2,42 @@ package com.niit.shoppingcartback.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name = "userDetails")
+@Table(name = "userdetails")
 @Component
 public class UserDetails {
 
 	@Id
-	@Column(name = "id")
-	private String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id")
+	private int id;
 	
+	
+	
+	private int role;
+
 	private String name;
 	private String password;
 	private String mail;
 	private String contact;
 	private String address;
 
-	// ROLL_USER OR ROLL_ADMIN
-	private String role;
-
 	public UserDetails() {
 
 	}
 
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -84,6 +79,20 @@ public class UserDetails {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public int getRole() {
+		return role;
+	}
+
+	public void setRole(int role) {
+		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		return "UserDetails [id=" + id + ", role=" + role + ", name=" + name + ", password=" + password + ", mail="
+				+ mail + ", contact=" + contact + ", address=" + address + "]";
 	}
 
 }

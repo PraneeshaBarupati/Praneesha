@@ -17,10 +17,10 @@ public class ProductTest {
 		System.out.println(productDAO);
 		Product product = (Product) context.getBean("product");
 		System.out.println(product);
-		product.setId("09");
-		product.setName("mobile");
-		product.setDescription("this is a mobile");
-		product.setPrice("2000");
+		product.setId("Toys_06");
+		product.setName("Toy_car");
+		product.setDescription("This is car");
+		product.setPrice("500");
 		productDAO.save(product);
 		/*
 		 * if (productDAO.save(product) == true) { System.out.println(

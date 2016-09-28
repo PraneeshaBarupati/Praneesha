@@ -2,7 +2,7 @@ package com.niit.shoppingcartback.dao;
 
 import java.util.List;
 
-import com.niit.shoppingcartback.model.Category;
+
 import com.niit.shoppingcartback.model.Supplier;
 
 public interface SupplierDAO {

@@ -15,22 +15,18 @@ public class UserDetailsTest {
 		// 1 for user Reg
 
 		UserDetails userdetails = (UserDetails) context.getBean("userDetails");
-		userdetails.setId("30430");
+		userdetails.setId(30430);
 		userdetails.setName("Deependra");
 		userdetails.setPassword("007");
 		userdetails.setAddress("Btm");
 		userdetails.setContact("9742758996");
 		userdetails.setMail("dipendra.eng@gmail.com");
-		userdetails.setRole("ROLE_ADMIN");
+		userdetails.setAddress("hyd");
 		
 
 		UserDetailsDAO udao = (UserDetailsDAO) context.getBean("userDetailsDAO");
 
-		if (udao.save(userdetails)) {
-			System.out.println("user registerd successfully");
-		} else {
-			System.out.println("not able to create user");
-		}
+		udao.saveOrUpdate(userdetails);
 
 	}
 }

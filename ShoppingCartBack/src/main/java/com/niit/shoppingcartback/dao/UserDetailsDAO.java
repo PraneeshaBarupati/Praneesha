@@ -11,16 +11,15 @@ public interface UserDetailsDAO {
 
 	// declare all crud operations
 
-	public boolean save(UserDetails userdetails);
+	public void saveOrUpdate(UserDetails userDetails);
 
-	public boolean update(UserDetails userdetails);
 
-	public boolean delete(UserDetails userdetails);
+	public void delete(String id);
 
-	public UserDetails get(String id);
+	public UserDetails get(String name);
 
 	public List<UserDetails> list();
 	
-	public UserDetails isValidUser(String id,String password);
+	public boolean isValidUser(String id,String password);
 
 }

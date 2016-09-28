@@ -19,12 +19,12 @@ public class CategoryTest {
 		Category category = (Category) context.getBean("category");
 		System.out.println(category);
 
-		category.setId("myid1");
-		category.setName("Deependra");
-		category.setDescription("ddependra description");
-		category.setCreatedby("Deependra");
+		category.setId("Cat_teddies");
+		category.setName("Kids_Teddy");
+		category.setDescription("kids Teddies available here");
+		category.setCreatedby("");
 
-		categoryDAO.save(category);// insert query should triggerd
+		categoryDAO.save(category); //insert query should triggerd
 
 		if (categoryDAO.save(category) == true) {
 			System.out.println("category created successfully");

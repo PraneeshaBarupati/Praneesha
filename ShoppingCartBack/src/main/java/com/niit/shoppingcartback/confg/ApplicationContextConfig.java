@@ -13,8 +13,26 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import com.niit.shoppingcartback.dao.*;
-import com.niit.shoppingcartback.model.*;
+
+import com.niit.shoppingcartback.dao.AccountDAO;
+import com.niit.shoppingcartback.dao.AccountDAOImpl;
+import com.niit.shoppingcartback.dao.CartDAO;
+import com.niit.shoppingcartback.dao.CartDAOImpl;
+import com.niit.shoppingcartback.dao.CategoryDAO;
+import com.niit.shoppingcartback.dao.CategoryDAOImpl;
+import com.niit.shoppingcartback.dao.ProductDAO;
+import com.niit.shoppingcartback.dao.ProductDAOImpl;
+import com.niit.shoppingcartback.dao.SupplierDAO;
+import com.niit.shoppingcartback.dao.SupplierDAOImpl;
+import com.niit.shoppingcartback.dao.UserDetailsDAO;
+import com.niit.shoppingcartback.dao.UserDetailsDAOImpl;
+
+import com.niit.shoppingcartback.model.Cart;
+import com.niit.shoppingcartback.model.Category;
+import com.niit.shoppingcartback.model.Product;
+import com.niit.shoppingcartback.model.Supplier;
+import com.niit.shoppingcartback.model.UserDetails;
+import com.niit.shoppingcartback.model.UserOrder;
 
 @Configuration
 @ComponentScan("com.niit.shoppingcartback")
@@ -60,8 +78,9 @@ public class ApplicationContextConfig {
 		sessionBuilder.addAnnotatedClasses(Category.class);
 		sessionBuilder.addAnnotatedClasses(Supplier.class);
 		sessionBuilder.addAnnotatedClasses(Product.class);
-		sessionBuilder.addAnnotatedClasses(User.class);
-
+		sessionBuilder.addAnnotatedClasses(Cart.class);
+		sessionBuilder.addAnnotatedClasses(UserOrder.class);
+		// sessionBuilder.addAnnotatedClasses(Admin.class);
 		return sessionBuilder.buildSessionFactory();
 	}
 
@@ -76,7 +95,7 @@ public class ApplicationContextConfig {
 	@Autowired
 	@Bean(name = "categoryDAO")
 	public CategoryDAO getcategoryDAOImpl(SessionFactory sessionFactory) {
-		//System.out.println("*******categoryDao  Object Retrieved***");
+		// System.out.println("*******categoryDao Object Retrieved***");
 		return new CategoryDAOImpl(sessionFactory);
 
 	}
@@ -84,7 +103,7 @@ public class ApplicationContextConfig {
 	@Autowired
 	@Bean(name = "productDAO")
 	public ProductDAO getproductDAOImpl(SessionFactory sessionFactory) {
-		//System.out.println("*******productDao  Object Retrieved***");
+		// System.out.println("*******productDao Object Retrieved***");
 		return new ProductDAOImpl(sessionFactory);
 
 	}
@@ -92,21 +111,36 @@ public class ApplicationContextConfig {
 	@Autowired
 	@Bean(name = "supplierDAO")
 	public SupplierDAO getsupplierDAOImpl(SessionFactory sessionFactory) {
-		//System.out.println("*******supplierDao  Object Retrieved***");
+		// System.out.println("*******supplierDao Object Retrieved***");
 		return new SupplierDAOImpl(sessionFactory);
 	}
 
 	@Autowired
 	@Bean(name = "userDetailsDAO")
 	public UserDetailsDAO getuserDetailsDAOImpl(SessionFactory sessionFactory) {
-		//System.out.println("*******userDetailsDao  Object Retrieved***");
+		// System.out.println("*******userDetailsDao Object Retrieved***");
 		return new UserDetailsDAOImpl(sessionFactory);
 	}
 
 	@Autowired
-	@Bean(name = "userDAO")
-	public UserDAO getuserDAOImpl(SessionFactory sessionFactory) {
-		//System.out.println("*******UserDAO  Object Retrieved***");
-		return new UserDAOImpl(sessionFactory);
+	@Bean(name = "cartDao")
+	public CartDAO getCartDao(SessionFactory sessionFactory) {
+		return new CartDAOImpl(sessionFactory);
 	}
+
+	@Autowired
+	@Bean(name = "accountDAO")
+	public AccountDAO getAccountDao(SessionFactory sessionFactory) {
+		return new AccountDAOImpl(sessionFactory);
+	}
+
+	/*
+	 * @Autowired
+	 * 
+	 * @Bean(name = "userDAO") public UserDAO getuserDAOImpl(SessionFactory
+	 * sessionFactory) { // System.out.println(
+	 * "*******UserDAO Object Retrieved***"); return new
+	 * UserDAOImpl(sessionFactory); }
+	 * 
+	 */
 }

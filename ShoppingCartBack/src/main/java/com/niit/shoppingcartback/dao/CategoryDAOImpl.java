@@ -117,7 +117,6 @@ public class CategoryDAOImpl implements CategoryDAO {
 			 return list.get(0);
 
 		}
-	
 
 	}
 

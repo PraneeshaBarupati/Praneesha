@@ -1,7 +1,8 @@
 package com.niit.shoppingcartback.dao;
 
 import java.util.List;
-import java.util.jar.Attributes.Name;
+
+
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -9,12 +10,12 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.niit.shoppingcartback.model.Supplier;
 
-@Repository("supplierDAO")
+
 public class SupplierDAOImpl implements SupplierDAO {
 
 	private static final Logger log = LoggerFactory.getLogger(ProductDAOImpl.class);
@@ -80,7 +81,7 @@ public class SupplierDAOImpl implements SupplierDAO {
 		// select * from supplier where id='101'
 		log.debug("Starting of the method save");
 		log.info("trying to get product based on id:" + id);
-		String hql = "from Supplier where myid =" + "'" + id + "'";
+		String hql = "from Supplier where id =" + "'" + id + "'";
 		log.info("the hql query is:" + hql);
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		List<Supplier> list = query.list();
@@ -118,10 +119,11 @@ public class SupplierDAOImpl implements SupplierDAO {
 	@Transactional
 	public List<Supplier> list() {
 		log.debug("Starting of the method save");
-		String hql = "from supplier";
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		String hql = "from Supplier";
+		Query query =(Query) sessionFactory.getCurrentSession().createQuery(hql);
 		log.debug("Starting of the method save");
 		return query.list();
+		
 
 	}
 
