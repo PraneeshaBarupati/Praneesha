@@ -1,0 +1,154 @@
+app.controller('blogController', [ 'blogFactory', '$log', '$rootScope',
+		function(blogFactory, $log, $rootScope) {
+
+			var self = this;
+			self.blog = {
+				blogId : '',
+				blogName : '',
+				blogDescription : '',
+				userId : ''
+			};
+			self.blogs = [];
+			self.singleBlog = {};
+			self.form = false;
+			self.confirm = false;
+			fetchAllBlogs();
+
+			/* fetching all blogs */
+
+			function fetchAllBlogs() {
+				self.dataLoaded = false;
+				blogFactory.fetchAllBlogs().then(function(data) {
+					self.blogs = data;
+					self.dataLoaded = true;
+					self.failed = false;
+				}, function(errResponse) {
+					console.error("Error fetching blogs");
+					self.failed = true;
+				});
+			}
+
+			/* creating blog */
+
+			function createBlog(blog) {
+				self.msgApproval = false;
+				self.process = true;
+				debugger;
+				console.log(blog);
+				blogFactory.createBlog(blog).then(function(data) {
+					// self.blogs=self.blogs.concat(data);
+					self.confirm = true;
+					self.msgApproval = true;
+					self.process = false;
+				}, function(errResponse) {
+					console.error("Error creating blog");
+					self.process = false;
+					self.msgApproval = false;
+
+				});
+				resetFields();
+				self.form = false;
+			}
+
+			self.submitBlog = function() {
+				// alert("in create blog");
+				self.confirm = false;
+				debugger;
+				if (self.blog.blogId === '' || self.blog.blogId === undefined) {
+					// var formData = new FormData();
+					// var file = self.blogImage;
+					// console.dir(file);
+					// formData.append('blogImage',file);
+					self.blog.userId = $rootScope.client.userId;
+					// formData.append('blog',angular.toJson(self.blog,true));
+					// console.log(self.blog);
+					// console.log(formData);
+					createBlog(self.blog);
+					// debugger;
+				} /* if blog id doesnt exist from begning save it */
+
+				else {
+					updateBlog(self.blog, self.blog.blogId);
+				} /*
+					 * else if data or id exist go to update method and update
+					 * the blog
+					 */
+
+				self.confirm = false;
+			}
+
+			/* Update Blog */
+
+			function updateBlog(blog, blogId) {
+				self.process = true;
+				// debugger;
+				blogFactory.updateBlog(blog, blogId).then(function(data) {
+					for (var i = 0; i < self.blogs.length; i++) {
+						if (self.blogs[i].blogId === blogId) {
+							self.blogs.splice(i, 1, data);
+							break;
+						}
+					}
+					self.process = false;
+				}, function(errResponse) {
+					console.log("Error updating blog");
+					self.process = false;
+				});
+				resetFields();
+				self.form = false;
+			}
+
+			self.editBlog = function(blogId) {
+				self.confirm = false;
+				self.form = true;
+				console.log('blogid to edit : ', blogId);
+				// debugger;
+				for (var i = 0; i < self.blogs.length; i++) {
+					var n = self.blogs[i].blogId.localeCompare(blogId)
+					if (n == 0) {
+						// alert("blogId");
+						self.blog = angular.copy(self.blogs[i]);
+						break;
+					}
+
+				}
+
+			}
+
+			/* Delete blog */
+
+			self.deleteBlog = function(blogId) {
+				self.confirm = false;
+				self.process = true;
+				// alert('In delete blog');
+				if (self.blog.blogId === blogId) {// clean form if the user to
+					// be deleted is shown
+					// there.
+					resetFields()
+				}
+				blogFactory.deleteBlog(blogId).then(function() {
+					for (var i = 0; i < self.blogs.length; i++) {
+						if (self.blogs[i].blogId === blogId) {
+							self.blogs.splice(i, 1);
+							break;
+						}
+					}
+					self.process = false;
+				}, function(errResponse) {
+					console.error("Error deleting blog");
+					self.process = false;
+				});
+
+			}
+
+			function resetFields() {
+				self.blog = {
+					blogId : '',
+					blogName : '',
+					blogDescription : '',
+					userId : ''
+				};
+				self.comment = '';
+				self.blogImage = '';
+			}
+		} ]);

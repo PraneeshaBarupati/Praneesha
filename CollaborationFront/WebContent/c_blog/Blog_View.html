@@ -1,0 +1,181 @@
+<h1 class="ctitle shift-right">
+	<span class="fa fa-codepen"></span> Blogs <span class="pull right">{{blogCtrl.blogs.length}}
+		Found</span>
+</h1>
+<!-- Loader -->
+<div class="preloader-wrapper big active ajax-loader"
+	ng-if="blogCtrl.process">
+	<div class="spinner-layer spinner-blue-only">
+		<div class="circle-clipper left">
+			<div class="circle"></div>
+		</div>
+		<div class="gap-patch">
+			<div class="circle"></div>
+		</div>
+		<div class="circle-clipper right">
+			<div class="circle"></div>
+		</div>
+	</div>
+</div>
+<!-- Loader -->
+
+
+
+<div class="row">
+	<br>
+
+	<div class="pop-form col-sm-8 col-xs-12" ng-show="blogCtrl.form">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Manage Blog</div>
+			<div class="panel-body">
+				<form ng-submit="blogCtrl.submitBlog()">
+					<input type="hidden" ng-model="blogCtrl.blog.blogId" />
+					<div class="input-field">
+						<i
+							class="fa fa-server fa-2x prefix {{blogCtrl.blog.blogName ? 'active' : ''}}"></i>
+						<input id="icon_prefix" type="text" class="validate"
+							ng-model="blogCtrl.blog.blogName" required> <label
+							for="icon_prefix"
+							class="{{blogCtrl.blog.blogName ? 'active' : ''}}"">Blog
+							Name</label>
+					</div>
+					<div class="input-field">
+						<i
+							class="material-icons prefix {{blogCtrl.blog.blogDescription ? 'active' : ''}}">phone</i>
+						<textarea id="blog_description" class="materialize-textarea"
+							ng-model="blogCtrl.blog.blogDescription"></textarea>
+						<label for="blog_description"
+							class="{{blogCtrl.blog.blogDescription ? 'active' : ''}}">Description</label>
+					</div>
+					<!-- <div class="file-field input-field">
+							<div class="btn blue lighten-2">
+								<span>File</span>
+								<input type="file"  file-model="blogCtrl.blogImage">
+							</div>
+							<div class="file-path-wrapper">
+								<input class="file-path validate" type="text">
+							</div>
+						</div> -->
+					<input type="submit"
+						value="{{!blogCtrl.blog.blogId ? 'Add Blog' : 'Update Blog'}}"
+						class="btn {{!blogCtrl.blog.blogId ? 'green' : 'amber'}} col-sm-offset-2">
+					<button class="btn btn-danger" ng-click="blogCtrl.form=false">Cancel</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+<div class="row">
+	<div class="col-sm-9 col-md-9 col-sm-11 col-xs-12">
+		<button class="btn green shift-right" ng-if="client"
+			ng-click="blogCtrl.form=true">Add Blog</button>
+		<h3 ng-show="blogCtrl.failed">Unable to load data please try
+			after sometime</h3>
+		<div ng-hide="blogCtrl.failed">
+			<p class="text-center" ng-hide="blogCtrl.dataLoaded">
+				<i class="fa fa-spinner fa-pulse fa-5x"></i>
+			</p>
+			<div class="row"
+				ng-repeat="blog in blogCtrl.blogs |orderBy : 'createdAt':true"
+				ng-show="blogCtrl.dataLoaded">
+				<p class="alert alert-success col-xs-4" ng-if="blogCtrl.msgApproval">
+					Blog successfully sent for approval, it will be added automatically
+					! <span class="pull right" ng-click="blogCtrl.msgApproval=false">X</span>
+				</p>
+				<div class="col-xs-12">
+					<ul class="collapsible popout" data-collapsible="accordion">
+						<li class="inner-content">
+							<div class="collapsible-header collection">
+								<h2>{{blog.blogName}}</h2>
+								&nbsp;
+								<div ng-if="blog.userId == client.userId" class="pull right">
+									<a class="btn btn-warning"
+										ng-click="blogCtrl.editBlog(blog.blogId)"><span
+										class="fa fa-edit"></span> Edit</a>&nbsp;<a class="btn btn-danger"
+										ng-click="blogCtrl.deleteBlog(blog.blogId)"><span
+										class="fa fa-trash"></span> Delete</a>
+								</div>
+								<p class="title">{{blog.blogDescription}}&nbsp;&nbsp;</p>
+								<p>
+									<b>{{blog.blogComments.length}} Comment/s</b> - &nbsp;&nbsp;
+									Last Updated {{blog.modifiedAt | date : 'h:mm a, MMM d, y
+									'}}&nbsp;&nbsp;<a href="#/blog/view/{{blog.blogId}}"
+										class="btn blur lighten 2" ng-if="client">Comment</a>
+								</p>
+								<br>
+							</div>
+							<div class="collapsible-body">
+								<ul class="collection"
+									ng-repeat="blogComment in blog.blogComments | limitTo : 4">
+									<li class="collection-item avatar"><img
+										class="circle card-image"
+										ng-src="./asets/images/users/{{blogComment.userId}}.png"
+										onerror="this.src='./assets/images/default.png'"><span
+										class="card-text">{{blogComment.blogCommentContent}}</span></li>
+								</ul>
+								<span ng-if="blog.blogComments.length>4"><a
+									href="#/blog/view/{{blog.blogId}}"
+									class="btn green darken-1 waves-effect waves-light">View
+										more</a></span>
+							</div>
+						</li>
+						<script>
+							//Instert this just after closing _$tag             
+							$(document).ready(function() {
+								$('.collapsible').collapsible({
+									accordion : true
+								});
+							});
+						</script>
+					</ul>
+				</div>
+				<!-- col-sm-12 -->
+			</div>
+			<!-- inner row -->
+		</div>
+		<!-- ng-if -->
+	</div>
+	<!-- col-sm-9 -->
+
+	<div class="col-sm-3">
+		<h5 class="ctitle">Active Discussion</h5>
+		<div class="inner-content">Lorem ipsum dolor sit amet,
+			consectetur adipisicing elit. Vero sequi obcaecati officiis libero,
+			dicta odio distinctio? Ad dolore quasi vero, iste accusamus, cumque
+			fugiat temporibus dolor delectus voluptatibus esse, enim!</div>
+		<div class="inner-content">Cupiditate, omnis, minima? Magnam
+			unde voluptatum, quidem quae quo suscipit molestiae perspiciatis
+			veniam. Soluta harum asperiores atque, commodi laudantium minus.
+			Alias unde beatae a ipsum commodi reiciendis, perspiciatis esse
+			quibusdam!</div>
+		<div class="inner-content">Cum quas expedita atque dolore
+			assumenda, ab eos? Rem, ducimus voluptatem quasi nihil maiores nam
+			recusandae temporibus consectetur dignissimos necessitatibus quidem
+			alias doloribus sed quisquam saepe iure numquam, dolores, obcaecati!</div>
+		<div class="inner-content">Animi aperiam dolore, repellat
+			tempore aliquid. Officia dolore, blanditiis rem error maiores
+			delectus magnam incidunt deleniti fugit mollitia necessitatibus
+			laboriosam ab quidem vitae! Aut, est. Quam, beatae! Illo, nostrum
+			non!</div>
+		<div class="inner-content">Odit commodi similique quibusdam a
+			sit iure non, repellat esse omnis totam ut, quia. Nihil doloribus
+			aliquam amet itaque velit, totam excepturi, incidunt placeat, sed
+			natus ducimus odio aspernatur doloremque.</div>
+		<div class="inner-content">Optio magnam inventore aspernatur,
+			pariatur itaque incidunt necessitatibus provident nisi amet soluta
+			distinctio, nihil odio, iure tenetur corporis, maiores esse at nulla
+			voluptate. Molestiae voluptatem a, voluptatibus est delectus aliquid!</div>
+		<div class="inner-content">Repellendus optio asperiores beatae,
+			quos, recusandae, velit nisi inventore modi delectus eveniet iusto,
+			quibusdam praesentium. Inventore necessitatibus reprehenderit
+			adipisci facere autem corporis explicabo voluptatem eos quis id, rem
+			laudantium ab?</div>
+		<div class="inner-content">Aliquam fuga id illum deserunt quo
+			fugit aliquid unde odio. Sunt ab dicta, voluptatum nam enim autem
+			quae obcaecati fugiat quo, pariatur necessitatibus ipsum numquam
+			tempore, doloremque molestias. Amet, voluptatem?</div>
+
+
+	</div>
+	<!-- outer row -->
